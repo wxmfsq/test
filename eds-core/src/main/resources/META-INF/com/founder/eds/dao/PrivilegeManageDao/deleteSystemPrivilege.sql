@@ -1,0 +1,1 @@
+delete from system_privilege sp where sp.account_sn = /*accountSn*/''

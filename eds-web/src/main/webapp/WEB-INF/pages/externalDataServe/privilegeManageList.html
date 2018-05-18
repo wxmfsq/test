@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>权限管理</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<th:block th:fragment="styles">
+	<style type="text/css">
+		.outerTable tbody tr td
+		{
+			vertical-align:Top;
+		}
+		
+		.table_tr_head
+		{
+			background: url(../images/table/table_thbg.png) repeat-x;
+		}
+		
+		.table_td_height tr td
+		{
+			height:23px;
+		}
+		
+		.selBackGround
+		{
+			background-color: #BDDFFF;
+		}
+		
+		.filterover:hover
+		{
+			color: #38A8DF;
+		}
+		
+		.filtersel
+		{
+			color: #006AAD;
+		}
+		
+		.inpBorder
+		{
+			border: 1px solid red;
+		}
+		
+		.inpRepeatBorder
+		{
+			border: 1px solid orange;
+		}
+		
+		.inpValidBorder
+		{
+			border: 1px solid #ffff00;
+		}
+		
+	</style>
+</th:block>
+
+<th:block th:fragment="scripts">
+	<script type="text/javascript" src="../scripts/externalDataServer/privilegeManage.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	 $(function()
+	 {
+		$("#leftMenu").hide();
+		$(".hideButton").hide();
+		$("#ipSelectSpan").hide();
+		$("#ipHead").hide();
+		$("#tes").width(0);
+		$("#ipConId").width(0);
+		$("#ipConId").show();
+		
+		var canvasWidth = $("#serGroupId").width();
+		var canvasHeight = $("#serGroupId").height();
+     });
+	</script>
+</th:block>
+</head>
+<body th:fragment="content">
+	<div id="divAll">
+		<div class="content">
+			<div
+				style="margin: 5px; padding: 2px; border: 1px solid #aacbee; background: #f8f8f8; min-width: 800px;">
+				<form id="dataSourceSearchID" name="dataSourceSearchname"
+					action="../externalDataServe/DataSourceList.html"
+					th:object="${dataSourceSearch}" method="post">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%">
+						<tr>
+							<td class="Table_title"><img src="../images/icon_01.gif" />权限管理</td>
+						</tr>
+					</table>
+					<div class="Graybg">
+						<table id="selectParameters" cellpadding="0" cellspacing="0"
+							class="Table_s outerTable" width="100%" height="800px">
+							<tbody>
+								<tr>
+									<td id="ipConId" width="263px" height="99%" style="display:none;border:1px solid #AACBEE;border-top:none;background-color:white;">
+										<div id="tes">
+										<div class="table_tr_head" style="width:263px;height:23px;padding-top:3px;border:1px solid #AACBEE;color:white;text-align:center;">
+											<span id="ipHead">数据服务固定访问IP</span>
+										</div>
+										<div style="width:263px;height:20px;margin-top:2px;border-bottom:1px solid #AACBEE;">
+											<span class="hideButton" style="margin-left:1px">
+												<input class="button" id="add" type="button" name="add"
+												onclick="addServiceTr()" value="新增" style="width: 60px;" />
+											</span>
+											<span class="hideButton" style="margin-left:70px">
+												<input class="button" id="save" type="button" name="save"
+												onclick="ipSave()" value="保存" style="width: 60px;" />
+												<input class="button" id="delete" type="button" name="delete"
+												onclick="ipDelete()" value="删除" style="width: 60px;" />
+											</span>
+										</div>
+										<div style="width:263px;height:24px;margin-top:2px">
+											<span id="ipSelectSpan" style="margin-left:20px">
+												查询：<input type="text" style="width:165px;height:18px;" id="ipSelect" name="ipSelect" />
+											</span>
+										</div>
+										<div id="serviceDiv" style="width:99%;height:731px;overflow:auto;border:1px solid #AACBEE;">
+											<table id="serviceTab" width="100%" class="table_td_height">
+												<tr id="cloneTr" style="display:none;">
+													<td style="width:20px;padding-left:2px;padding-top:6px;text-align:center;">
+														<img onclick="deleteServiceTr(this)" style="width:15px;height:15px;cursor:pointer;" src="../images/button_deletesearch.png"></img>
+													</td>
+													<td>
+													 ip：<input style="height:19px;width:95px" onblur="validateRepeat(this)" onkeyup="cancelValidation(this)" type="text" name="ipAddInput" value="" />
+													   备注：<input style="height:19px;width:60px" type="text" name="memoAddInput" value="" />
+													</td>
+												</tr>
+												<tr id="cloneData" style="display:none;">
+													<td style="width:20px;padding-left:2px;padding-top:6px;text-align:center;">
+														<input type="checkbox" name="ixClone" value="" />
+													</td>
+													<td>
+													 ip：  <input style="height:19px;width:95px" onkeyup="cancelValidation(this)" onblur="validateRepeat(this)" type="text" name="ipInputClone" value="" />
+													    备注：<input style="height:19px;width:60px" type="text" name="memoInputClone" value="" />
+													</td>
+												</tr>
+												<tr th:each="data,rowStat:${systemAccessIps}"
+													th:class="${rowStat.even}? 'datatable-even account backChange':'datatable-odd account backChange'">
+													<td style="width:20px;padding-left:2px;padding-top:6px;text-align:center;">
+														<input type="checkbox" onclick="stopBubble(event)" name="ix" th:value="${data.accessIpSn}" />
+													</td>
+													<td>
+													 ip：<input style="height:19px;width:95px" th:attr="versionIp=${data.updateCount}" class="validateRepeat" onblur="validateRepeat(this)" type="text" onkeyup="cancelValidation(this)" th:id="${data.accessIpSn} + 'aip'" name="ipInput" th:value="${data.accessIp}" />
+													   备注：<input style="height:19px;width:60px" type="text" th:attr="versionIp=${data.updateCount}" th:id="${data.accessIpSn} + 'aip'" name="memoInput" th:value="${data.memo}"/>
+													</td>
+												</tr>
+											</table>
+										</div>
+										<div style="width:263px;height:21px;margin-top:4px">
+											<span class="hideButton" style="margin-left:1px">
+												<input class="button" id="add" type="button" name="add"
+												onclick="addServiceTr()" value="新增" style="width: 60px;" />
+											</span>
+											<span class="hideButton" style="margin-left:70px">
+												<input class="button" id="save" type="button" name="save"
+												onclick="ipSave()" value="保存" style="width: 60px;" />
+												<input class="button" id="delete" type="button" name="delete"
+												onclick="ipDelete()" value="删除" style="width: 60px;" />
+											</span>
+										</div>
+										<div style="width:100%;height:2px;">&nbsp;</div>
+										</div>
+									</td>
+									
+									<td style="width:1px;padding:0px;">
+										<div id="gIpShowId" style="width:6px;height:840px;" title="显示窗口">
+											<img src="../images/menu_open.jpg" style="width:6px;height:100%;cursor:pointer;" onclick="showIpGroup()"></img>
+										</div>
+										<div id="gIpHideId" style="display:none;width:6px;height:840px;" title="隐藏窗口">
+											<img src="../images/menu_close.png" style="width:6px;height:100%;cursor:pointer;" onclick="hideIpGroup()"></img>
+										</div>
+									</td>
+								
+									<td width="263px" height="99%" style="border:1px solid #AACBEE;border-top:none;background-color:white;">
+										<div class="table_tr_head" style="width:99%;height:23px;padding-top:3px;border:1px solid #AACBEE;color:white;text-align:center;">数据服务用户</div>
+										<div style="width:99%;height:804px;overflow:auto;border:1px solid #AACBEE;">
+											<table id="systemAccountTab" width="100%" class="table_td_height">
+												<tr th:each="data,rowStat:${systemAccounts}" style="cursor:pointer;" onclick="selServiceDef(this)" 
+													th:class="${rowStat.even}? 'datatable-even account':'datatable-odd account'">
+													<td style="width:50px;padding-left:3px;padding-top:6px;text-align:center;">
+														<img src="../images/pic_man.jpg" style="width:15px;height:15px;" />
+													</td>
+													<td th:text="${data.userName}">user</td>
+													<td style="display:none;" class="accountSn" th:text="${data.accountSn}">accountSn</td>
+												</tr>
+											</table>
+										</div>
+										<div style="width:100%;height:2px;">&nbsp;</div>
+									</td>
+									
+									<td style="width:0.5px"></td>
+									
+									<td height="99%" style="border:1px solid #AACBEE;border-top:none;background-color:white;">
+										<div style="width:99%;height:23px;padding-top:4px;margin-left:2px;border-bottom:1px solid #AACBEE;">
+											<img src="../images/pic_list.gif" style="position:absolute;" />
+											<span id="allFilter" class="serviceFilter filterover" style="margin-left:25px;cursor:pointer;">全部</span>
+											<span id="checkedFilter" class="serviceFilter filterover" style="margin-left:17px;cursor:pointer;">已选</span>
+											<span id="uncheckedFilter" class="serviceFilter filterover" style="margin-left:17px;cursor:pointer;">未选</span>
+											<span style="float:right">
+												<input class="button" id="saveService" type="button" name="saveService"
+												onclick="privilegeSave()" value="保存" style="width: 60px;" />
+											</span>
+										</div>
+										
+										<div id="gId" style="width:99%;height:300px;overflow:auto;border:1px solid #AACBEE;border-top:none;">
+											<div style="width:100%;height:30px;overflow:auto;">
+												<table id="serGroupIdHead" width="100%" style="background-color:white;" class="table_td_height">
+													<tr class="table_tr_head" style="color:white;text-align:center;">
+														<td style="border-right: 1px solid #FFF;width:50px;padding-left:3px;padding-top:6px">
+															<input type="checkbox" onclick="selectAll('itemGroupService', 'checkGroupAll'); selectRelatedGroupAll(this); filterCheckSel();" id="checkGroupAll" name="checkGroupAll" />
+														</td>
+														<td style="border-right: 1px solid #FFF;padding-top:5px;width:200px">接口分组名称</td>
+														<td style="border-right: 1px solid #FFF;padding-top:5px">接口分组描述</td>
+													</tr>
+												</table>
+											</div>
+											<div style="width:100%;height:262px;overflow:auto;">
+												<table id="serGroupId" width="100%" style="background-color:white;" class="table_td_height">
+													<tr th:each="data,rowStat:${serviceGroups}" th:class="${rowStat.even} ? 'datatable-even filterItem filterItemGroup' : 'datatable-odd filterItem filterItemGroup'"
+															onclick="selectSingle('itemGroupService', 'checkGroupAll', this); selectTrRelatedGroup(this);" >
+														<td style="width:50px;padding-left:3px;padding-top:7px;text-align:center;">
+															<input onclick="selectSingle('itemGroupService', 'checkGroupAll'); selectRelatedGroup(this);" th:class="${data.groupSn + 'groupSnAll'}" th:id="${data.groupSn + 'groupPrimaryId'}" th:value="${data.groupSn}" type="checkbox" name="itemGroupService" />
+														</td>
+														<td style="width:200px;word-break:break-all;" th:title="${data.serviceGroupName}" th:text="${data.serviceGroupName}">serviceGroupName</td>
+														<td style="word-break:break-all;" th:title="${data.memo}" th:text="${data.memo}">memo</td>
+													</tr>
+												</table>
+											</div>
+											<div style="width:100%;height:7px;" title="缩小窗口">
+												<img src="../images/pic_lines_13.jpg" style="width:100%;;height:6px;cursor:pointer;" onclick="upGroup()"></img>
+											</div>
+										</div>
+										<div id="gDownId" style="display:none;width:99%;height:7px;" title="还原窗口"><img src="../images/pic_lines_12.jpg" style="width:100%;height:6px;cursor:pointer;" onclick="downGroup()"></img></div>
+										
+										<div style="width:100%;height:5px">&nbsp;</div>
+										
+										<div style="width:99%;height:474px;border:1px solid #AACBEE;border-top:none;">
+											<div style="width:100%;height:30px;background-color:white;">
+												<table width="100%" style="background-color:white;" class="table_td_height">
+													<tr class="table_tr_head" style="color:white;text-align:center;">
+														<td style="border-right: 1px solid #FFF;width:50px;padding-left:3px;padding-top:6px">
+															<input type="checkbox" onclick="selectAll('itemService', 'checkAll'); selectRelatedAll(this); filterCheckSel();" id="checkAll" name="checkAll" />
+														</td>
+														<td style="width:15%;border-right: 1px solid #FFF;padding-top:5px">接口名称</td>
+														<td style="width:12%;border-right: 1px solid #FFF;padding-top:5px">接口类型</td>
+														<td style="width:20%;border-right: 1px solid #FFF;padding-top:5px">服务URL</td>
+														<td style="width:12%;border-right: 1px solid #FFF;padding-top:5px">接口分组</td>
+														<td style="padding-top:5px">接口描述</td>
+													</tr>													
+												</table>
+											</div>
+											<div style="width:100%;height:444px;overflow:auto;border-top:none;">
+												<table width="100%" style="background-color:white;" class="table_td_height">
+													<tr th:each="data,rowStat:${serviceDefinitions}" th:class="${rowStat.even} ? 'datatable-even filterItem' : 'datatable-odd filterItem'" 
+															onclick="selectSingle('itemService', 'checkAll', this); selectTrRelated(this);">
+														<td style="width:50px;padding-left:3px;padding-top:7px;text-align:center;word-break:break-all;">
+															<input onclick="selectSingle('itemService', 'checkAll'); selectRelated(this);" th:id="${data.serviceDefinitionSn + 'definitionPrimaryId'}" th:class="${data.serviceGroup + 'groupSn'}" th:value="${data.serviceDefinitionSn}" type="checkbox" name="itemService" />
+															<input type="hidden" name="itemServiceHidden" th:value="${data.serviceGroup}" />
+														</td>
+														<td style="width:15%;border-right: 1px;word-break:break-all;" th:title="${data.serviceName}" th:text="${data.serviceName}">serviceName</td>
+														<td style="width:12%;border-right: 1px;padding-left:3px;word-break:break-all;" th:title="${dictCache.name(constants.getSt001(), data.serviceType)}" th:text="${dictCache.name(constants.getSt001(), data.serviceType)}">serviceType</td>
+														<td style="width:20%;border-right: 1px;padding-left:5px;word-break:break-all;" th:title="${data.serviceUrl}" th:text="${data.serviceUrl}">serviceUrl</td>
+														<td style="width:12%;border-right: 1px;padding-left:8px;word-break:break-all;" th:title="${data.serviceGroupName}" th:text="${data.serviceGroupName}">serviceGroup</td>
+														<td style="padding-left:13px;word-break:break-all;" th:title="${data.description}" th:text="${data.description}">discription</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+										<div style="width:99%;height:23px;padding-top:5px;margin-left:2px;">
+											<span style="float:right">
+												<input class="button" id="saveService" type="button" name="saveService"
+												onclick="privilegeSave()" value="保存" style="width: 60px;" />
+											</span>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="alertMessage"></div>
+</body>
+</html>

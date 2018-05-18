@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>对外数据服务工具管理系统</title>
+<link href="../styles/themes/cupertino/jquery-ui.css" rel="stylesheet" />
+<link href="../styles/global.css" rel="stylesheet" type="text/css" />
+<link href="../styles/template.css" rel="stylesheet" />
+<link href="../styles/table.css" type="text/css" rel="stylesheet" />
+<link th:include="${frag_content} :: styles" rel="stylesheet" type="text/css" media="all" />
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+<script type="text/javascript" src="../scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../scripts/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="../scripts/common.js"></script>
+<script th:substituteby="${frag_content} :: scripts" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+});
+
+</script>
+</head>
+
+<body style="min-width: 1000px;">
+	<div class="header" th:fragment="header">
+		<img src="../images/template/logo.png" alt="logo" class="logo-img" />
+		<span class="system-name" >对外数据服务工具管理系统</span>
+		<div class="user" th:text="'欢迎：&nbsp;' + ${username}">欢迎：xxx</div>
+		<div class="founder"></div>
+		<div class="homepage" style="width:355px">
+			<a
+				href="../externalDataServe/groupManage.html"
+				style="color: white; z-index: 100;">接口分组管理</a>
+			<a
+				href="../externalDataServe/DataSourceList.html"
+				style="color: white; z-index: 100;">数据源管理</a> 
+			<a
+				href="../externalDataServe/externalDataServeList.html"
+				style="color: white; z-index: 100;">数据服务管理</a> 
+			<a
+				href="../externalDataServe/privilegeManageList.html"
+				style="color: white; z-index: 100;">权限管理</a> 
+			<!--<a
+				href="../systemSetting/wardCodeQuery.html"
+				style="color: white; z-index: 100;">权限管理</a> 
+			<a
+				href="../systemSetting/wardCodeQuery.html"
+				style="color: white; z-index: 100;">接口运行监控</a>
+			<img src="../images/template/setting.png" style="width: 17px; height: 17px;" />
+			<a
+				href="../systemSetting/wardCodeQuery.html"
+				style="color: white; z-index: 100;">系统设置</a> -->
+			<img
+				src="../images/template/logout.png"
+				style="width: 17px; height: 17px;" /><a
+				href="../login.html" style="color: white; z-index: 100;">退出</a>
+		</div>
+	</div>
+<div id="content" class="content">
+		<div id="leftMenu" class="menu" style="overflow-y:auto;height:86%;width:15%;" backgroud="white">
+			
+			<tr th:each="data:${serviceDeListDto}">
+			<ul id="menu-1" class="menu-1">
+				<li>
+					<div class="head">
+						<span class="menu-icon"><img src="../images/template/menu_1_icon2.png" /></span>
+						<span class="txt-1" style="text-align:left">
+							<a  th:text="${data.name}"></a>
+						 </span>
+					</div>
+					<tr th:each="da:${data.map}">
+			<ul class="menu-2">
+				<li>
+					<span class="txt-2" style="text-align:center">
+					<a th:href="@{../externalDataServe/externalDataServeDList.html(key=${da.key})}"  th:text="${da.value}"></a>
+					</span>
+				</li>
+		    </ul>
+			</tr>
+				</li>
+			</ul>
+			</tr>
+		</div>
+		<div th:substituteby="${frag_content} :: content"></div>
+	</div>
+	
+	<div id="showFavorites" style="width: 980px; display: none;">
+		<iframe id="dataIframe" height="510px;" width="930px" frameborder="0"
+			scrolling="no" src=""></iframe>
+	</div>
+	<div class="footer" th:fragment="footer">
+		<div class="copyright">
+			Copyright<span th:text="${copyright}"></span>&copy; 2014 北大医疗信息技术有限公司版权所有
+		</div>
+	</div>
+</body>
+</html>

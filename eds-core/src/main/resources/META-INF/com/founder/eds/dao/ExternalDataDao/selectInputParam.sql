@@ -1,0 +1,1 @@
+select * from input_param  where delete_flag='0' and service_definition_sn=/*key*/''

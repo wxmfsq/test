@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>权限管理-ip检索</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	<table id="serviceTab" width="100%" class="table_td_height">
+		<tr id="cloneTr" style="display:none;">
+			<td style="width:20px;padding-left:2px;padding-top:6px;text-align:center;">
+				<img onclick="deleteServiceTr(this)" style="width:15px;height:15px;cursor:pointer;" src="../images/button_deletesearch.png"></img>
+			</td>
+			<td>
+			  ip：<input style="height:19px;width:95px" onblur="validateRepeat(this)" onkeyup="cancelValidation(this)" type="text" name="ipAddInput" value="" />
+			     备注：<input style="height:19px;width:60px" type="text" name="memoAddInput" value="" />
+			</td>
+		</tr>
+		<tr id="cloneData" style="display:none;">
+			<td style="width:50px;padding-left:3px;padding-top:6px;text-align:center;">
+				<input type="checkbox" name="ixClone" value="" />
+			</td>
+			<td>
+			  ip：<input style="height:19px;width:95px" onkeyup="cancelValidation(this)" onblur="validateRepeat(this)" type="text" name="ipInputClone" value="" />
+			     备注：<input style="height:19px;width:60px" type="text" name="memoInputClone" value="" />
+			</td>
+		</tr>
+		<tr th:each="data,rowStat:${systemAccessIps}"
+			th:class="${rowStat.even}? 'datatable-even account backChange':'datatable-odd account backChange'">
+			<td style="width:20px;padding-left:2px;padding-top:6px;text-align:center;">
+				<input type="checkbox" onclick="stopBubble(event)" name="ix" th:value="${data.accessIpSn}" />
+			</td>
+			<td>
+				ip：<input style="height:19px;width:95px" class="validateRepeat" th:attr="versionIp=${data.updateCount}" onblur="validateRepeat(this)" type="text" onkeyup="cancelValidation(this)" th:id="${data.accessIpSn} + 'aip'" name="ipInput" th:value="${data.accessIp}" />
+				备注：<input style="height:19px;width:60px" th:attr="versionIp=${data.updateCount}"  type="text" th:id="${data.accessIpSn} + 'aip'" name="memoInput" th:value="${data.memo}"/>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

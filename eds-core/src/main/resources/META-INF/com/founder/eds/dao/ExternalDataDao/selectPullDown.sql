@@ -1,0 +1,1 @@
+select data_source_sn  ,connection_name  from data_source  where delete_flag='0'

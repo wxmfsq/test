@@ -1,0 +1,162 @@
+.header {
+	width: 100%;
+	height: 60px;
+	background: url(../images/template/header_bg.png) repeat-x;
+	position:relative;
+}
+.header .logo-img {
+	margin-top:3px;
+}
+.header .system-name {
+	left:330px;
+	top:12px;
+	width:240px;
+	position:absolute;
+	color: #FFF;
+	font-family: "΢���ź�";
+	font-size: 18px;
+	font-weight: bold;
+	background: url(../images/template/header_bg.png) repeat-x;
+	z-index:20;
+}
+.header .founder {
+	width:122px;
+	height:56px;
+/* 	float:right; */
+	position:absolute;
+	top:-13px;
+	right:15px;
+	z-index:10;
+	text-align:right;
+	background: url(../images/template/founder-logo.png) no-repeat;
+}
+.header .homepage {
+	width: 330px;
+	float:right;
+	margin-top:34px;
+	margin-right:140px;
+	text-align:right;
+	vertical-align:bottom;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	font-weight: bold;
+	z-index:20;
+}
+.header .user {
+	width: 250px;
+	top:12px;
+	right:170px;
+	position:absolute;
+	text-align:right;
+	vertical-align:bottom;
+	color:white;
+	font-family: "微软雅黑";
+	font-size: 13px;
+}
+
+/* footer */
+.footer {
+	background: url(../images/template/footer_bg.png) repeat-x center;
+	height: 35px;
+	width: 100%;
+}
+
+.footer .copyright {
+	height: 23px;
+	line-height: 23px;
+	text-align: center;
+	width: 100%;
+	color: #FFF;
+	font: 12px "微软雅黑";
+	padding-top: 12px;
+}
+/*top-menu */
+.top-menu {
+	background-color: #FFF;
+	background-image: url(../images/template/top_menu_bg.png);
+	background-repeat: repeat-x;
+	height: 65px;
+	min-width:1000px;
+}
+
+.arrow {
+	margin-top: 25px;
+	float: left;
+	margin-left: 20px;
+}
+.top-menu ul{
+	margin-left: 35px;
+}
+.top-menu ul > li { 
+	float: left;
+	width: 90px;
+	line-height:1;
+	text-align: center;
+	padding-top:5px;
+}
+.top-menu ul > li a {
+	color: #1166a9;
+	font-weight: bolder;
+}
+
+.top-menu ul>li a span {
+	font-weight: bold;
+	color: #1566a5;
+	font-size: 10px;
+}
+/*ʵ�����ݲ���*/
+.content {
+	min-height: 510px;
+	min-width: 1007px;
+	width: 100%;
+	background-color: #FAFAFA;
+}
+/*���˵�*/
+.menu {
+	position: absolute;
+	float: left;
+	width: 20%;
+	
+}
+
+.menu .menu-1 > li {
+	width: 200px;
+	overflow: hidden;
+}
+
+.head {
+	height: 28px;
+	width: 100%;
+	background: url(../images/template/menu_1_bg.png) repeat-x;
+}
+
+.menu-icon {
+	margin-top: 6px;
+	position: absolute;
+	left: 10px;
+	background: url(../images/template/menu_1_icon1.png);
+}
+
+.txt-1 {
+	position: absolute;
+	left: 45px;
+	margin-top: 4px;
+}
+
+.menu .menu-1 li .menu-2 > li {
+	width: 100%;
+	height: 18px;
+	overflow: hidden;
+	border-bottom:1px solid #E8E8E8;
+	background-color: #FAFAFA;
+}
+
+.txt-2 {
+	 position: relative;
+	left: 3px; 
+}
+
+.right-content {
+	margin-left: 15%;
+	background-color: white;
+}

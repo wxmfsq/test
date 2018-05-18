@@ -1,0 +1,117 @@
+table {
+	border-collapse: collapse;
+}
+
+.button {
+	background-color: #036BB2;
+	font: 12px "微软雅黑";
+	color: #FFF;
+	border: 0;
+	height: 18px;
+	cursor: pointer;
+}
+
+.label {
+	font: 12px "微软雅黑";
+	color: #2F83BF;
+}
+
+.input {
+	border: 1px solid #036BB2;
+	font: 12px "微软雅黑";
+	color: #2F83BF;
+	height:14px;
+}
+
+.unitText {
+	font: 12px "微软雅黑";
+	color: #036BB2;
+}
+
+.table_info th {
+	color: #036BB2;
+	font: 14px "微软雅黑";
+	font-weight: bold;
+	height: 30px;
+}
+
+.table_info tr {
+	height: 25px;
+}
+
+.table_comp th {
+	color: #036BB2;
+	font: 14px "微软雅黑";
+	font-weight: bold;
+	height: 30px;
+}
+
+.table_comp tr {
+	height: 25px;
+}
+
+.table_comp td {
+	color: #036BB2;
+	font: 12px "微软雅黑";
+}
+
+.table_comp td div {
+	color: #036BB2;
+	font: 12px "微软雅黑";
+}
+
+.table_assay th {
+	color: #036BB2;
+	font: 14px "微软雅黑";
+	font-weight: bold;
+	height: 30px;
+}
+
+.table_assay tr {
+	height: 25px;
+}
+
+.table_assay tbody td {
+	color: #036BB2;
+	font: 12px "微软雅黑";
+	border: 1px solid #CCCCCC;
+}
+
+.table_examine th {
+	color: #036BB2;
+	font: 14px "微软雅黑";
+	font-weight: bold;
+	height: 30px;
+}
+
+.table_examine tr {
+	height: 25px;
+}
+
+.table_examine tbody  td {
+	color: #036BB2;
+	font: 12px "微软雅黑";
+	border: 1px solid #CCCCCC;
+}
+
+.tdTitle {
+	font: 12px "微软雅黑";
+	background-color: #FFFFCC;
+	text-align: center;
+}
+
+.datatable-even {
+	background-color: #FFF;
+}
+
+.datatable-even:hover {
+	background-color: #BDDFFF;
+}
+
+.datatable-odd {
+	background-color: #E7EEF6;
+}
+
+.datatable-odd:hover {
+	background-color: #BDDFFF;
+}

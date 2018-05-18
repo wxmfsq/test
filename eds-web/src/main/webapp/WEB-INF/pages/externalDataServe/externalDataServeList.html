@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>数据服务接口定义</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<style type="text/css"></style>
+
+<th:block th:fragment="styles">
+	
+</th:block>
+
+<th:block th:fragment="scripts">
+	<script type="text/javascript" src="../scripts/externalDataServer/externalDataServer.js"></script>
+	<script type="text/javascript" src="../scripts/externalDataServer/externalDataServerB.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+		$(function() {
+	
+	});
+	</script>
+</th:block>
+</head>
+<body th:fragment="content">
+	<div><!--body 1-->
+		<div class="right-content" ><!--body 2-->
+			<div style="margin: 5px; padding: 2px; background: #f8f8f8; min-width: 400px;"><!--body 21-->
+				<form id="dictLabSearchDtoid" name="dictLabSearchDtoname"
+					action="../systemSettings/dictLabGroup.html"
+					 method="post">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%">
+						<input type="hidden" name="dictLabGroupSn" id="dictLabGroupSn" />
+						<!--判断与结果一致sql内容显示标志隐藏-->
+						<input type="hidden" name="SqlEqual" id="SqlEqual"  th:value="${SqlEqual}" />
+							<tr>
+								<td class="Table_title" colspan="2"><img src="../images/icon_01.gif" />数据服务接口定义</td>
+							</tr>
+							<tr style="padding-top:5px">
+								<td  align="left" >
+							 		<input	class="button" id="" type="button" name="addA"
+										onclick="AddButtonA()" value="新增" style="width: 60px;">
+									</input>
+									<input class="button" id="updateA" type="button"
+										name="updateA" onclick="UpdateButtonA()" value="修改"
+										style="width: 60px;">
+									</input> 
+									<input class="button" id="deleteA" type="button" name="deleteA" onclick="DeleteButtonA()"
+										value="删除" style="width: 60px;">
+									</input>
+									<!--<input class="button" id="delete" type="button" name="delete" 
+									onclick="popupGroup()"
+										value="接口分组管理" style="width: 80px;">
+									</input>
+									onclick="location.href='../externalDataServe/groupManage.html' "
+									<input class="button" id="aa" type="button" name="aa" 
+									onclick="checkForm()"
+										value="验证" style="width: 80px;">
+									</input>-->
+								</td>
+								<td  align="right" style="padding-right: 28px">
+									<!--由于修改和新增保存区别较大,故弄两个保存方法区别. 此保存是新增保存-->
+									<input	class="button" id="saveA" type="button" name="saveA" style="width: 60px;display:none;"  
+										onclick="SaveButtonA()" value="保存" > </input>
+									<!--此保存是修改后的保存-->	
+									<input	class="button" id="saveB" type="button" name="saveB" style="width: 60px;display:none;"  
+										onclick="SaveButtonB()" value="保存" > </input>
+									<input	class="button" id="cancelA" type="button" name="cancelA" style="width: 60px;display:none;"  
+										onclick="location.href='../externalDataServe/externalDataServeList.html'" value="取消" > </input>
+								</td>
+							</tr>
+				</table>
+			</form>
+			<div>
+				<hr/>
+			<div class="Graybg" style="margin-left:0px;float:left;width:50%;">
+					<form id="serviceDefinitionId" name="serviceDefinitionName" 
+					th:object="${serviceDefinitionList}" method="post">
+						<table id="selectParameters" cellpadding="0" cellspacing="0"
+							class="Table_s" width="100%" >
+							<tbody>
+								<tr>
+									<td class="label" style="width:20%;">接口名称:</td>
+									<td style="width:30%;">
+										<!--主键ID判断状态是否可以删除-->
+										<input class="input" id="serviceDefinitionSn" type='hidden' th:field="*{serviceDefinitionSn}"
+										name="serviceDefinitionSn" style="width: 20%;" />
+										<input class="input" id="serviceName" type='text' th:field="*{serviceName}"
+										name="serviceName" style="width: 80%;" /><a style="color:red">*</a>
+									</td>
+									<td class="label" style="width:20%;">接口类型:</td>
+									<td style="width:30%;">
+										<select class="input" id="serviceType" name="serviceType" th:field="*{serviceType}"  style="width: 80%;" >
+											<option value="">请选择:</option>
+											<option th:each="data:${serviceType}"
+												th:value="${data.cvCode}" th:text="${data.cvValue}"
+												th:attr="searchtext=${data.pyCode}"></option>
+										</select><a style="color:red">*</a>
+									</td>
+							   </tr>
+							   <tr>
+									<td class="label" style="width:20%;">服务URL:</td>
+									<td colspan="3" style="width:80%;">
+										<input class="input" id="serviceUrl" type='text' name="serviceUrl" th:field="*{serviceUrl}"
+										style="width: 92%;" /><a style="color:red;width: 8%;">*</a>
+									</td>
+							    </tr>
+								<tr>
+									<td class="label" style="width:20%;">接口分组:</td>
+									<td style="width:30%;"><select class="input" id="serviceGroup" name="serviceGroup" th:field="*{serviceGroup}" style="width: 80%;" >
+											<option value="">请选择:</option>
+											<option th:each="data:${dictServiceGroup}"
+												th:value="${data.groupSn}" th:text="${data.serviceGroupName}"
+												></option></select><a style="color:red;width: 5%;">*</a>
+									</td>
+									<td class="label" style="width:20%;">选择数据源:</td>
+									<td style="width:30%;"><select class="input" id="dataSourceSn" name="dataSourceSn" th:field="*{dataSourceSn}"  style="width: 80%;" >
+											<option value="">请选择:</option>
+											<option th:each="data:${dataSource}"
+												th:value="${data.dataSourceSn}" th:text="${data.connectionName}"
+												></option></select><a style="color:red;width: 5%;">*</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="label" style="width:20%;">接口描述:</td>
+									<td colspan="3" style="width:80%;"><textarea class="input" id="description" type='text' th:field="*{description}" 
+										name="description" style="width: 92%;height:60px;" />
+								    </td>
+								</tr>
+								<tr>
+									<td class="label" style="width:20%;">操作方式:</td>
+									<td style="width:30%;"><select class="input" id="opMode" name="opMode" th:field="*{opMode}" style="width: 80%;" >
+											<option value="">请选择:</option>
+											<option th:each="data:${opMode}"
+												th:value="${data.cvCode}" th:text="${data.cvValue}"
+												th:attr="searchtext=${data.pyCode}"></option></select><a style="color:red;width: 5%;">*</a>
+									</td>
+							        <td class="label" style="width:20%;">数据编码:</td>
+									<td style="width:30%;"><select class="input" id="dataEncode" name="dataEncode" th:field="*{dataEncode}" style="width: 80%;" >
+											<option value="">请选择:</option>
+										<option th:each="data:${dataEncode}"
+												th:value="${data.cvCode}" th:text="${data.cvValue}"
+												th:attr="searchtext=${data.pyCode}"></option></select><a style="color:red;width: 5%;">*</a>
+									</td>
+								</tr>
+						</tbody>
+					</table>
+					</form>
+						<!--输入表单-->
+			<div>
+				<form id="dictLabSearchDtoid" name="dictLabSearchDtoname"  
+					action="../systemSettings/dictLabGroup.html" method="post">
+					<table id="selectParameters" cellpadding="0" cellspacing="0" class="Table_s" width="100%" >
+							<tbody>
+								<tr>
+									<td class="label" style="color: #1265A7;width: 20%;font: 12px '微软雅黑'">参数列表:</td>
+									<td align="center">
+										<input class="button" id="delete" type="hidden" name="delete" onclick="DeleteButton()"
+										value="向上" style="width: 60px;"></input>
+										<input class="button" id="delete" type="hidden" name="delete" onclick="DeleteButton()"
+										value="向下" style="width: 60px;"></input>
+								    </td>
+									<td  align="left" style="float:right;margin-right:10px;">
+										<input class="button" id="add" type="button" name="add"
+										 onclick="AddButtonI()" value="添加" style="width: 60px;"></input>
+										<!--克隆时添加行数值num onclick="AddButtonI()" -->
+										<input class="button" type="hidden" id="hidNum" name="hidNum" value="0" /> 
+										<input class="button" id="update" type="hidden"
+										name="update" onclick="UpdateButton()" value="修改"
+										style="width: 60px;"></input> 
+										<input class="button" id="deleteB" type="button" name="delete" onclick="DeleteButtonB()"
+										value="删除"  style="width:60px;"></input>
+									</td>
+								</tr>
+							</tbody>
+					</table>	
+			</form>
+				<div id="indisinfctnMntr_content" style="overflow-y:auto;height:250px;border: 1px solid #aacbee;">
+					<table  id="inputTable" class="Table_r" style="margin-top: -5px;width:100%;">
+						<thead>
+							<tr>
+								<th style=" width:5%;"><input id="recordCheckAllB" type="checkbox"
+									name="recordCheckAllB"  onclick="selectAllB()" /></th>
+								<th style=" width:15%;">NO</th>
+								<th style=" width:15%;">名称</th>
+								<th style=" width:20%;">类型</th>
+								<th style=" width:15%;">最小次数</th>
+								<th style=" width:15%;">最大次数</th>
+								<th style=" width:15%;">参数描述</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!--克隆模型 -->
+							<tr id="cloneTd" style="display: none;">
+								 <td style="text-align: center;width:10px;" >
+								 	<input style=" width:10px;"	id="ItemBB" name="ItemBB" type="checkbox" onclick="selectSingleB()" />
+								 </td>
+                			 	<td align="left" ><input class="input" style=" width:60px;" type="text" id="paramNo"   name="paramNo" /></td> 
+								<td align="left" ><input class="input" style=" width:58px;" type="text" id="paramName"   name="paramName" /></td> 
+                				<td align="left">
+                					<select class="input" style="width:80px;border: 1px solid #1265A7;color: #1265A7;" id="paramType" name="paramType">
+										<option value="">请选择</option>
+										<option th:each="data:${paramTypeName}" th:value="${data.cvCode}" th:text="${data.cvValue}">
+										</option>
+									</select>
+								</td>
+               					<td align="left"><input class="input" style=" width:58px;" type="text" id="minTimes"  name="minTimes" /></td> 
+								<td align="left" ><input class="input" style=" width:58px;" type="text" id="maxTimes"  name="maxTimes" /></td>
+               					<td align="left" ><input class="input" style=" width:60px;" type="text" id="paramText" name="paramText"/></td> 
+							</tr>
+							<!--
+							<tr th:each="data,rowStat:${inputParam}"
+								th:class="${rowStat.even}? 'datatable-even':'datatable-odd'">
+								<td style="text-align: center">
+									<input 	th:id="dictLabGroupSn" name="Item" type="checkbox" th:value="${data.inputParamSn}"
+									onclick="selectSingle()" /></td>
+								<td
+									th:if="${data.paramNo.toString()==null or (data.paramNo.toString()!=null and data.paramNo.toString().length() le 4)}"
+									th:text="${data.paramNo.toString()}">NO</td>
+								<td
+									th:if="${data.paramNo.toString()!=null and (data.paramNo.toString().length() gt 4)}"
+									th:text="${data.paramNo.toString().substring(0,4)+'...'}"
+									th:title="${data.paramNo.toString()}">NO</td>
+								<td
+									th:if="${data.paramName==null or (data.paramName.length() le 4)}"
+									th:text="${data.paramName}">名称</td>
+								<td
+									th:if="${data.paramName!=null and (data.paramName.length() gt 4)}"
+									th:text="${data.paramName.substring(0,4)+'...'}"
+									th:title="${data.paramName}">名称</td>
+								<td
+									th:if="${(data.paramType!= null?(codeToName.name('ST004',data.paramType)==null?data.paramType:codeToName.name('ST004',data.paramType)):'').length() le 7}"
+									th:text="${data.paramType!= null?(codeToName.name('ST004',data.paramType)==null?data.paramType:codeToName.name('ST004',data.paramType)):''}">类型</td>
+								<td
+									th:if="${(data.paramType!= null?(codeToName.name('ST004',data.paramType)==null?data.paramType:codeToName.name('ST004',data.paramType)):'').length() gt 7}"
+									th:text="${(data.paramType!= null?(codeToName.name('ST004',data.paramType)==null?data.paramType:codeToName.name('ST004',data.paramType)):'').substring(0,7)+'...'}"
+									th:title="${data.paramType!= null?(codeToName.name('ST004',data.paramType)==null?data.paramType:codeToName.name('ST004',data.paramType)):''}">类型</td>
+								<td
+									th:if="${data.paramType==null or (data.paramType.length() le 4)}"
+									th:text="${data.paramType}">类型</td>
+								<td
+									th:if="${data.paramType!=null and (data.paramType.length() gt 4)}"
+									th:text="${data.paramType.substring(0,4)+'...'}"
+									th:title="${data.paramType}">类型</td>
+								
+								<td
+									th:if="${data.minTimes.toString()==null or (data.minTimes.toString().length() le 4)}"
+									th:text="${data.minTimes.toString()}">最小次数</td>
+								<td
+									th:if="${data.minTimes.toString()!=null and (data.minTimes.toString().length() gt 4)}"
+									th:text="${data.minTimes.toString().substring(0,4)+'...'}"
+									th:title="${data.minTimes.toString()}">最小次数</td>
+								<td
+									th:if="${data.maxTimes.toString()==null or (data.maxTimes.toString().length() le 4)}"
+									th:text="${data.maxTimes.toString()}">最大次数</td>
+								<td
+									th:if="${data.maxTimes.toString()!=null and (data.maxTimes.toString().length() gt 4)}"
+									th:text="${data.maxTimes.toString().substring(0,4)+'...'}"
+									th:title="${data.maxTimes.toString()}">最大次数</td>
+								<td
+									th:if="${data.paramText==null or (data.paramText.length() le 5)}"
+									th:text="${data.paramText}">参数描述</td>
+								<td
+									th:if="${data.paramText!=null and (data.paramText.length() gt 5)}"
+									th:text="${data.paramText.substring(0,5)+'...'}"
+									th:title="${data.paramText}">参数描述</td>
+							</tr>
+							-->
+							<tr  th:each="data,rowStat:${inputParam}"
+								th:class="${rowStat.even}? 'datatable-even':'datatable-odd'">
+								<td style="text-align: center">
+									<input 	 style=" width:10px;" id="ItemB" name="ItemB" type="checkbox" th:value="${data.inputParamSn}"
+									onclick="selectSingleB()" /></td>
+								<td><input class="input" style=" width:60px;" id="paramNo" name="paramNo" th:value="${data.paramNo}"/></td>
+								<td><input class="input" style=" width:58px;" id="paramName" name="paramName" th:value="${data.paramName}"/></td>
+								<td>
+									<select class="input" id="paramType" name="paramType" th:attr="defaultVal=${data.paramType}" style="width: 80px;" >
+										<option th:each="datas:${paramTypeName}"
+												th:value="${datas.cvCode}" th:text="${datas.cvValue}"
+												th:if="${datas.cvCode}==${data.paramType}"
+												th:attr="selected=${data.paramType}"></option>
+										<option th:each="datas:${paramTypeName}"
+												th:value="${datas.cvCode}" th:text="${datas.cvValue}"
+												th:if="${datas.cvCode}!=${data.paramType}"></option>
+									</select>
+								</td>
+								<td><input class="input" style=" width:58px;" id="minTimes"  name="minTimes"  th:value="${data.minTimes}"/></td>
+								<td><input class="input" style=" width:58px;"  id="maxTimes"  name="maxTimes"  th:value="${data.maxTimes}"/></td>
+								<td><input class="input" style=" width:60px;"  id="paramText" name="paramText" th:value="${data.paramText}"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+					<!--输入结束div-->
+		</div>
+			</div>
+			<!--右侧输出表单-->
+			<div id="content-one" class="contentt" style="float:right;width:50%;">
+			<form id="dictLabSearchDtoid" name="dictLabSearchDtoname" th:object="${serviceDefinitionList}"
+					action="../systemSettings/dictLabGroup.html"  method="post">
+					<table id="selectParameters" cellpadding="0" cellspacing="0" class="Table_s" width="100%" >
+							<tbody>
+								<tr>
+									<td class="label" style="width: 65px;">返回值结构:</td>
+									<td><select class="input" id="resultComposit" name="resultComposit"  th:field="*{resultComposit}"
+										style="width: 110px;" >
+											<option value="">请选择:</option>
+											<option th:each="data:${resultComposit}"
+												th:value="${data.cvCode}" th:text="${data.cvValue}"
+												th:attr="searchtext=${data.pyCode}"></option></select><a style="color:red;width: 2px;">*</a>
+									</td>
+								</tr>
+							</tbody>
+					</table>
+			</form>
+			<div id="divdiv" style="height:415px;background-color: #E7EEF6;"></div>
+			<form id="resultForm" style="display:none;" >
+					<table id="selectParameters" cellpadding="0" cellspacing="0" class="Table_s" width="100%" >
+								<tbody>
+								<tr>
+									<td  align="left" style="float:right;margin-right:10px;">
+									<input class="button" type="hidden" id="hidNumC" name="hidNumC" value="0" /> 
+										<input
+										class="button" id="addC" type="button" name="addC"
+										onclick="AddButtonC()" value="添加" style="width: 55px;"></input>
+										<input
+										class="button" id="add" type="button" name="add"
+										onclick="AddButtonCC()" value="添加子元素" style="width: 70px;"></input>
+										<input class="button" id="deleteC" type="button" name="deleteC" onclick="DeleteButtonC()"
+										value="删除" style="width: 55px;"></input>
+									</td>
+								</tr>
+							</tbody>
+					</table>	
+			</form>
+				<div id="resultDiv" style="border: 1px solid #aacbee;overflow-y:auto;height:220px;display:none;">
+					<table id="resultTableC" class="Table_r" style="margin-top: -5px;width:100%;">
+						<thead>
+							<tr>
+								<th style=" width:5%;"><input id="recordCheckAllC" type="checkbox"
+									name="recordCheckAllC"  onclick="selectAllC()" /></th>
+								<th style=" width:15%;">数据组名称</th>
+								<th style=" width:15%;">数据组描述</th>
+								<th style=" width:15%;">最小次数</th>
+								<th style=" width:15%;">最大次数</th>
+								<th style=" width:20%;">SQL</th>
+								<th style=" width:15%;">数据组序号</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!--克隆模型 onclick="selectSingleC()"-->
+							<tr id="cloneId" style="display: none;">
+								 <td style="text-align: center;width:5%;" >
+								 	<input 	id="ItemCC" name="ItemCC" type="checkbox"  />
+									<input class="input" id="textc" type='hidden' name="textc" style="width: 100px;" />
+								 </td>
+                			 	<td align="left" ><input class="input" style=" width:90%;" type="text" id="dataGroupNameEn"   name="dataGroupNameEn" /></td> 
+								<td align="left" ><input class="input" style=" width:90%;" type="text" id="dataGroupNameCn"   name="dataGroupNameCn" /></td> 
+               					<td align="left"><input class="input" style=" width:90%;" type="text" id="minTimes"  name="minTimes" /></td> 
+								<td align="left" ><input class="input" style=" width:90%;" type="text" id="maxTimes"  name="maxTimes" /></td>
+               					<td align="left" ><input class="input" style=" width:90%;" type="text" id="sqlEtlText" name="sqlEtlText"/></td> 
+								<td align="left" ><input class="input" style=" width:90%;" type="text" id="dataGroupNo" name="dataGroupNo"/></td> 
+							</tr>
+							<!--改为可编辑框 方便取值
+							<tr  th:each="data,rowStat:${resultParam}"
+								th:class="${rowStat.even}? 'datatable-even':'datatable-odd'">
+								<td style="text-align: center">
+									<input 	th:id="dictLabGroupSn" name="ItemC" type="checkbox" th:value="${data.resultSn}"
+									onclick="selectSingleC()" /></td>
+								<td
+									th:if="${data.dataGroupNameEn==null or (data.dataGroupNameEn!=null and data.dataGroupNameEn.length() le 10)}"
+									th:text="${data.dataGroupNameEn}">数据组名称</td>
+								<td
+									th:if="${data.dataGroupNameEn!=null and (data.dataGroupNameEn.length() gt 10)}"
+									th:text="${data.dataGroupNameEn.substring(0,10)+'...'}"
+									th:title="${data.dataGroupNameEn}">数据组名称</td>
+								<td
+									th:if="${data.dataGroupNameCn==null or (data.dataGroupNameCn.length() le 4)}"
+									th:text="${data.dataGroupNameCn}">数据组描述</td>
+								<td
+									th:if="${data.dataGroupNameCn!=null and (data.dataGroupNameCn.length() gt 4)}"
+									th:text="${data.dataGroupNameCn.substring(0,4)+'...'}"
+									th:title="${data.dataGroupNameCn}">数据组描述</td>
+								<td
+									th:if="${data.minTimes==null }"
+									th:text="${data.minTimes}">最小次数</td>
+								<td
+									th:if="${data.minTimes!=null and (data.minTimes.toString().length() gt 4)}"
+									th:text="${data.minTimes.toString().substring(0,4)+'...'}"
+									th:title="${data.minTimes.toString()}">最小次数</td>
+								<td
+									th:if="${data.minTimes!=null and (data.minTimes.toString().length() le 4)}"
+									th:text="${data.minTimes.toString()}">最小次数</td>
+								<td
+									th:if="${data.maxTimes==null }"
+									th:text="${data.maxTimes}">最大次数</td>
+								<td
+									th:if="${data.maxTimes!=null and (data.maxTimes.toString().length() gt 4)}"
+									th:text="${data.maxTimes.toString().substring(0,4)+'...'}"
+									th:title="${data.maxTimes.toString()}">最大次数</td>
+								<td
+									th:if="${data.maxTimes!=null and (data.maxTimes.toString().length() le 4)}"
+									th:text="${data.maxTimes.toString()}">最大次数</td>
+								<td onclick="clickSql(this.title)"
+									th:if="${data.sqlText==null or (data.sqlText.length() le 5)}"
+									th:text="${data.sqlText}" th:title="${data.sqlText}" href="javascript:void(0)">SQL</td>
+								<td onclick="clickSql(this.title)"
+									th:if="${data.sqlText!=null and (data.sqlText.length() gt 5)}"
+									th:text="${data.sqlText.substring(0,5)+'...'}"
+									th:title="${data.sqlText}" href="javascript:void(0)">SQL</td>
+							</tr>-->
+							<tr  th:each="data,rowStat:${resultParam}"
+								th:class="${rowStat.even}? 'datatable-even':'datatable-odd'">
+								<td style="text-align: center">
+									<input 	th:id="dictLabGroupSn" name="ItemC" type="checkbox" th:value="${data.resultSn}"
+									onclick="selectSingleC()" />
+									<input class="input" id="textc" type='hidden' name="textc" th:value="${data.dataGroupName}" style="width: 100px;" />
+								</td>
+								<td>
+									<input class="input" style=" width:90%;" id="dataGroupNameEn" name="dataGroupNameEn" 
+									th:value="${data.dataGroupNameEn}" />
+								</td>
+								<td>
+									<input class="input" style=" width:90%;" id="dataGroupNameCn" name="dataGroupNameCn"
+									th:value="${data.dataGroupNameCn}"  /></td>
+								<td>
+									<input class="input" style=" width:90%;" id="minTimes" name="minTimes"
+									th:value="${data.minTimes}"  /></td>
+								<td>
+									<input class="input" style=" width:90%;" id="maxTimes" name="maxTimes"
+									th:value="${data.maxTimes}"  /></td>
+								<td>
+									<input class="input" style=" width:90%;" id="sqlText" name="sqlText"
+									onclick="clickSql(this.value)" href="javascript:void(0)"
+									th:value="${data.sqlText}"  /></td>
+								<td>
+									<input class="input" style=" width:90%;" id="dataGroupNo" name="dataGroupNo"
+									th:value="${data.dataGroupNo}"  /></td>
+							</tr>
+						</tbody>
+						
+					</table>
+				</div>
+				<div >
+				<form id="resultTable" style="display:none;">
+					<table id="selectParameters" cellpadding="0" cellspacing="0"  width="100%" class="Table_s">
+						<tr>
+									<td class="label" style="width:16%;">数据组名称:</td>
+									<td style="width: 20%;">
+										<input class="input" id="dataGroupNameEnC" type='text' 
+										name="dataGroupNameEnC" style="width: 80%;" /><a style="color:red">*</a>
+									</td>
+									<td class="label" style="width:16%;">数据组描述:</td>
+									<td style="width: 20%;">
+										<input class="input" id="dataGroupNameCnC" type='text' 
+										name="dataGroupNameCnC"  style="width: 80%;" /><a style="color:red">*</a>
+									</td >
+									<td class="label" style="width:16%;">父元素:</td>
+									<td style="width: 20%;"> 
+										<input class="input" id="textCC" type='text' readonly="true"
+										name="textCC" style="width: 80%;border-style:none;background-color: #E5EBFF;" />
+									</td>
+						</tr>
+									<td class="label" >最小次数:</td>
+									<td style="width: 20%;">
+										<input class="input" id="minTimesC" type='text' 
+										name="minTimesC" style="width: 80%;" /><a style="color:red">*</a>
+									</td>
+									<td class="label" >最大次数:</td>
+									<td style="width: 20%;">
+										<input class="input" id="maxTimesC" type='text' 
+										name="maxTimesC" style="width: 80%;" /><a style="color:red">*</a>
+									</td>
+									<td class="label" >数据组序号</td>
+									<td style="width: 20%;">
+										<input class="input" id="dataGroupNoC" type='text' 
+										name="dataGroupNoC" style="width: 80%" /><a style="color:red">*</a>
+									</td>
+						<tr>
+									<td>
+									</td>
+									<td>
+										<input	class="button" id="saveC" type="button" name="saveC"
+										onclick="saveButtonC()" value="保存" style="width: 55px;display:none;"></input>
+										<input	class="button" id="saveSQL" type="button" name="saveSQL"
+										onclick="saveButtonSQL()" value="保存SQL" style="width: 55px;display:none;"></input>
+									</td>		
+						</tr>
+					</table>
+				</form>
+				<form id="resultSql" style="display:none;">
+					<table id="selectParameters" cellpadding="0" cellspacing="0"  width="100%" >
+							<tbody>
+								
+								<tr>
+									<td style="color: #1265A7;width: 90px;font: 12px '微软雅黑'">SQL内容:<a style="color:red">*</a></td>
+								</tr>
+								<tr>
+									<td style="color: #1265A7;width: 90px;">
+										<textarea  class="input"   id="sqlEtlTextC" type='text' name="sqlEtlTextC" style="width: 100%;height:60px;"  />
+									</td>
+								</tr>
+							</tbody>
+					</table>
+				</form>
+				</div>
+				<!--右侧输出表单结束-->
+		</div>
+			
+			</div>
+			</div><!--body 21-->
+		</div><!--body 2-->
+		
+	</div><!--body-->
+	<div id="groupManageDialog" style="display: none;"></div>
+	<div id="alertMessage"></div><!--body 3-->
+</body>
+</html>

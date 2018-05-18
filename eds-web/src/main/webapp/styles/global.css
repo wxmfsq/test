@@ -1,0 +1,51 @@
+/* ȫ����ʽ */
+@charset "utf-8";
+*,html{padding:0;margin:0;}
+BODY {BACKGROUND-COLOR: ; FONT-FAMILY: "Arial"; FONT-SIZE: 12px; margin:0 auto}
+A:link    {COLOR: #2f2f2f; TEXT-DECORATION: none}
+A:visited {COLOR: #2f2f2f; TEXT-DECORATION: none}
+A:hover   {COLOR: #005AC1; TEXT-DECORATION: none}
+table{ border-collapse:collapse;}
+img{ border:0}
+.clear{clear:both}
+body,h1,h2,h3,h4,h5,h6,body p,ul,ol,dl,dt,dd,li,table,th,td,form,select,option,address,pre,strong,em,label {
+	font-size:12px;
+	font-style:normal;
+	font-family:"΢���ź�","����",Verdana,sans-serif;
+	line-height:1.5;
+	margin:0;
+	padding:0;
+}
+ul {
+	list-style-type: none;
+}
+
+.Table_title{ background:url(../images/title_bg.gif) repeat-x; height:25px; border:1px solid #aacbee; line-height:25px;
+  color:#4b7aab; font-size:12px; font-weight:bold; padding-left:5px;}
+.Table_title img { vertical-align:middle;}
+
+.Table_01   {border:1px solid #a9c3d0; margin-top:1px; width:100%; }
+.Table_01 th{ border:1px solid #a9c3d0; font-weight:normal; text-align:center; color:#083d5f;
+                 background:url(../images/title_thbg.gif) repeat-x; height:25px; line-height:25px; padding:0px 4px;}
+.Table_01 .spanhead th{ border:1px solid #a9c3d0; font-weight:normal; text-align:center; color:#083d5f;
+                 background:none; height:25px; line-height:25px; padding:0px 4px;}
+.Table_01 td{ border:1px solid #a9c3d0; padding:3px 4px;}
+
+.Table_02   { border:1; margin-top:1px; width:100%; }
+.Table_02 th{ width:200px;text-align: right;}
+.Table_02 td{ padding:5px 50px;text-align: left;}
+
+.Table_03   { border:0px solid #a9c3d0; margin-top:5px; width:100%; }
+.Table_03 th{ border:0px solid #a9c3d0; width:100px;text-align: right;padding:10px;}
+.Table_03 td{ border:0px solid #a9c3d0; width:300px;padding:5px 10px;text-align: left;}
+.Table_03 td input{width:300px;height:25px;}
+
+.Table_pw   {border:0px solid #a9c3d0; margin-top:1px; width:100%; }
+.Table_pw th{border:0px solid #a9c3d0; width:100px;text-align: right;}
+.Table_pw td{border:0px solid #a9c3d0; width:150px;padding:5px 10px;text-align: left;}
+.Table_pw td input{width:150px;height:20px;vertical-align: middle;}
+
+.Linkblue:link,.Linkblue:hover,.Linkblue:visited{ color:#2d56a5;}
+.Graybg{ background:#f8f8f8; width:100%; }
+.Table_s td{ padding:3px 0px 0px 2px;}
+

@@ -1,0 +1,183 @@
+@charset "utf-8";
+
+.label {
+	text-align: right;
+	font: 12px "微软雅黑";
+	color: #1265A7;
+}
+
+.input {
+	border: 1px solid #1265A7;
+	font: 12px "微软雅黑";
+	color: #1265A7;
+	height:18px;
+}
+
+.datepicker {
+	color: #1265A7;
+	border: 1px solid #1265A7;
+	height:18px;
+}
+
+.button {
+	background-color: #1265A7;
+	font: 12px "微软雅黑";
+	color: #FFF;
+	border: 0;
+	height:18px;
+	cursor: pointer;
+}
+
+.Table_s {
+	background-color: #E7EEF6;
+	padding-bottom:10px;
+	border-collapse:separate;
+}
+
+.Table_r {
+	
+	margin-top: 5px;
+}
+
+.Table_r th {
+	border: 1px solid #FFF;
+	color: #FFF;
+	font: 12px "微软雅黑";
+	background: url(../images/table/table_thbg.png) repeat-x;
+	height: 25px;
+}
+
+.Table_r th.thImg {
+	border: 1px solid #FFF;
+	color: #FFF;
+	font: 12px "微软雅黑";
+	background: url(../images/table/table_th2bg.png);
+	height: 61px;
+}
+
+.Table_r th.thCol {
+	border: 1px solid #FFF;
+	color: #FFF;
+	font: 12px "微软雅黑";
+	background: url(../images/table/table_th2bg.png) repeat-x;
+	height: 61px;
+}
+
+
+.Table_r td {
+	height: 30px;
+	margin-left:10px;
+	font: 12px "微软雅黑";
+}
+
+.Table_r td div div p{
+	font: 12px "微软雅黑";
+}
+
+.Table_r td div p{
+	font: 12px "微软雅黑";
+}
+
+.Table_r a {
+	color: #1265A7;
+}
+
+.Table_r thead {
+	border-left:1px solid #1265A7;
+}
+
+.Table_r tbody {
+	border:1px solid #E7EEF6;
+}
+
+.datatable-even {
+	background-color: #FFF;
+}
+
+.datatable-even:hover { 
+	background-color: #BDDFFF;
+} 
+
+.datatable-odd {
+	background-color: #E7EEF6;
+}
+
+.datatable-hover
+{
+	background-color: #BDDFFF;
+}
+
+.datatable-odd:hover { 
+	background-color: #BDDFFF;
+} 
+
+.datatable-paging {
+	background-color: #FFF;
+	height: 30px;
+	font: 12px "微软雅黑";
+	color: #1265A7;
+}
+
+td.datatable-paging-info {
+	padding-left: 10px;
+	padding-top: 2px;
+}
+
+.datatable-paging-count {
+	padding-right: 20px;
+}
+
+td.datatable-paging-page {
+	text-align: right;
+	border: 0px;
+}
+
+.datatable-paging-first {
+	background: url(../images/table/first.gif) no-repeat 0 0;
+	padding-left: 15px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.datatable-paging-previous {
+	background: url(../images/table/previous.gif) no-repeat 0 0;
+	padding-left: 15px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.datatable-paging-next {
+	background: url(../images/table/next.gif) no-repeat top right;
+	padding-right: 15px;
+	cursor: pointer;
+}
+
+.datatable-paging-last {
+	background: url(../images/table/last.gif) no-repeat top right;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-right: 15px;
+	cursor: pointer;
+}
+
+.datatable-paging-jump {
+	margin-left: 10px;
+}
+
+.datatable-paging-jump-input {
+	margin: 0 5px 0 5px;
+	width: 30px;
+	height: 12px;
+}
+
+.datatable-paging-jump-go {
+	display: inline-block;
+	width: 20px;
+	height: 12px;
+	background: url(../images/table/go.png) no-repeat top right;
+	cursor: pointer;
+	margin-left: 2px;
+	margin-right: 20px;
+	margin-top:5px;
+}
+

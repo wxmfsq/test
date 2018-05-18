@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>数据源管理</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<style type="text/css"></style>
+<th:block th:fragment="styles">
+</th:block>
+
+<th:block th:fragment="scripts">
+	<script type="text/javascript" src="../scripts/paging.js"></script>
+	<script type="text/javascript" src="../scripts/externalDataServer/dataSource.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	 $(function(){
+		$("#leftMenu").hide();
+     });	 
+	</script>
+
+</th:block>
+</head>
+<body th:fragment="content">
+	
+	<div>
+		
+		<div class="content">
+			<div
+				style="margin: 5px; padding: 2px; border: 1px solid #aacbee; background: #f8f8f8; min-width: 800px;">
+				<form id="dataSourceSearchID" name="dataSourceSearchname"
+					action="../externalDataServe/DataSourceList.html"
+					th:object="${dataSourceSearch}" method="post">
+					<input type="hidden" id="showWarnFlagHidden" value="1" name="showWarnFlag" /> 
+					<input type="hidden" id="showFlag" value="${showFlag}" name="showWarnFlag" /> 
+				    <input type="hidden" id="opt" name="opt" /> 
+					<input type="hidden" name="currentPage" th:field="*{currentPage}" /> 
+					<input type="hidden" name="totalPage" th:field="*{totalPage}" /> 
+					<input type="hidden" name="jumpToPage" id="jumpToPage" />
+					<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<!--区分新增保存，修改保存状态字段-->
+					<input type="hidden" name="dataSourceSn" id="dataSourceSn" />
+						<tr>
+							<td class="Table_title"><img src="../images/icon_01.gif" />数据源管理</td>
+						</tr>
+					</table>
+					<div class="Graybg">
+						<table id="selectParameters" cellpadding="0" cellspacing="0"
+							class="Table_s" width="100%" height="100px">
+							<tbody>
+								<tr>
+									<td class="label">连接名称:</td>
+									<td><input class="input" id="connectionName" type='text'
+										name="connectionName" style="width: 120px;"
+										th:field="*{connectionName}" maxlength="12" /></td>
+									<td class="label">数据库类型:</td>
+									<td><select class="input" id="databaseType" name="databaseType"
+										style="width: 120px;" th:field="*{databaseType}">
+											<option value="">请选择:</option>
+											<option th:each="data:${databaseTypeName}"
+												th:value="${data.cvCode}" th:text="${data.cvValue}"
+												th:attr="searchtext=${data.pyCode}"></option>
+									</select></td>
+									<td class="label">连接URL:</td>
+									<td><input class="input" id="connectionUrl" type='text'
+										name="connectionUrl" style="width: 120px;"
+										th:field="*{connectionUrl}"  /></td>
+								</tr>
+								<tr>
+									<td class="label">用户名:</td>
+									<td><input class="input" id="user" type='text'
+										name="user" style="width: 120px;"
+										th:field="*{user}"  /></td>
+									<td class="label">密码:</td>
+									<td><input class="input" id="passWord" type="password"
+										name="passWord" style="width: 120px;"
+										th:field="*{passWord}"  /></td>
+								</tr>
+								<tr>
+									<td colspan="4" align="left" style="padding-left: 28px"><input
+										class="button" id="add" type="button" name="add"
+										onclick="AddButton()" value="新增" style="width: 60px;"></input>
+										<input class="button" id="update" type="button"
+										name="update" onclick="UpdateButton()" value="修改"
+										style="width: 60px;"></input> 
+										<input class="button" id="delete" type="button" name="delete" onclick="DeleteButton()"
+										value="删除" style="width: 60px;"></input></td>
+									<td colspan="5" align="right" style="padding-right: 28px">
+									<input
+										class="button" id="save" type="button" name="save"
+										style="width: 60px;display:none;"  
+										onclick="SaveButton()" value="保存" ></input>
+									<input
+										class="button" id="check" type="button" name="check" onclick="submit()"
+										 value="检索" style="width: 60px;"></input>
+									<input class="button" id="cancel" type="button" name="cancel"
+										style="width: 60px;display:none;" 
+										onclick="CancelButton()" value="取消" ></input>
+									<input class="button" id="clear" type="button" name="clear"
+										onclick="ClearButton()" value="清空" style="width: 60px;"></input></td>
+								</tr>
+							</tbody>
+							<tfoot>
+							</tfoot>
+						</table>
+					</div>
+</form>
+				<div id="indisinfctnMntr_content" style="border: 0px solid #aacbee;">
+					<table id="showTable" class="Table_r"
+						width="100%">
+						<thead>
+							<tr>
+								<th sytle="width:5%;"><input id="recordCheckAll" type="checkbox"
+									name="recordCheckAll"  onclick="selectAll()" /></th>
+								<th sytle="width:25%;">连接名称</th>
+								<th sytle="width:25%;">数据库类型</th>
+								<th sytle="width:25%;">连接URL</th>
+								<th sytle="width:20%;">用户名</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="data,rowStat:${dataSourcelist}"
+								th:class="${rowStat.even}? 'datatable-even':'datatable-odd'">
+								<td style="text-align: center">
+									<input 	th:id="dataSourceSn" name="Item" type="checkbox" th:value="${data.dataSourceSn}"
+									onclick="selectSingle()" /></td>
+								<td
+									th:if="${data.connectionName==null or (data.connectionName!=null and data.connectionName.length() le 10)}"
+									th:text="${data.connectionName}">连接名称</td>
+								<td
+									th:if="${data.connectionName!=null and (data.connectionName.length() gt 10)}"
+									th:text="${data.connectionName.substring(0,10)+'...'}"
+									th:title="${data.connectionName}">连接名称</td>
+								<td
+									th:if="${(data.databaseType!= null?(codeToName.name('ST006',data.databaseType)==null?data.databaseType:codeToName.name('ST006',data.databaseType)):'').length() le 10}"
+									th:text="${data.databaseType!= null?(codeToName.name('ST006',data.databaseType)==null?data.databaseType:codeToName.name('ST006',data.databaseType)):''}">数据库类型</td>
+								<td
+									th:if="${(data.databaseType!= null?(codeToName.name('ST006',data.databaseType)==null?data.databaseType:codeToName.name('ST006',data.databaseType)):'').length() gt 10}"
+									th:text="${(data.databaseType!= null?(codeToName.name('ST006',data.databaseType)==null?data.databaseType:codeToName.name('ST006',data.databaseType)):'').substring(0,10)+'...'}"
+									th:title="${data.databaseType!= null?(codeToName.name('ST006',data.databaseType)==null?data.databaseType:codeToName.name('ST006',data.databaseType)):''}">数据库类型</td>
+							
+								<td
+									th:if="${data.connectionUrl==null or (data.connectionUrl.length() le 15)}"
+									th:text="${data.connectionUrl}">连接URL</td>
+								<td
+									th:if="${data.connectionUrl!=null and (data.connectionUrl.length() gt 15)}"
+									th:text="${data.connectionUrl.substring(0,15)+'...'}"
+									th:title="${data.connectionUrl}">连接URL</td>
+								<td
+									th:if="${data.user==null or (data.user.length() le 16)}"
+									th:text="${data.user}">用户名</td>
+								<td
+									th:if="${data.user!=null and (data.user.length() gt 16)}"
+									th:text="${data.user.substring(0,16)+'...'}"
+									th:title="${data.user}">用户名</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr th:unless="${#lists.isEmpty(dataSourcelist)}"
+								class="datatable-paging">
+								<td colspan="3" class="datatable-paging-info">
+									<span class="datatable-paging-count">第<span
+										th:text="${dataSourceSearch.currentPage}">1</span>页/共<span
+										th:text="${dataSourceSearch.totalPage}">550</span>页 </span> 
+								<span class="datatable-paging-total">总共<span
+										th:text="${dataSourceSearch.totalSize}">5500</span>条数据 </span></td>
+								<td  colspan="3"  class="datatable-paging-page">
+								<span
+									class="datatable-paging-first"
+									th:style="${dataSourceSearch.currentPage == 1 ? 'display: none;' : ''}"
+									onclick="firstPage(document.dataSourceSearchname);">首页</span> <span
+									class="datatable-paging-previous"
+									th:style="${dataSourceSearch.currentPage == 1 ? 'display: none;' : ''}"
+									onclick="prevPage(document.dataSourceSearchname);">上一页</span> <span
+									class="datatable-paging-next"
+									th:style="${dataSourceSearch.currentPage == dataSourceSearch.totalPage ? 'display: none;' : ''}"
+									onclick="nextPage(document.dataSourceSearchname);">下一页</span> <span
+									class="datatable-paging-last"
+									th:style="${dataSourceSearch.currentPage == dataSourceSearch.totalPage ? 'display: none;' : ''}"
+									onclick="lastPage(document.dataSourceSearchname);">尾页</span> <span
+									class="datatable-paging-jump"
+									th:style="${dataSourceSearch.totalPage == 1 ? 'display: none;' : ''}">
+										<span>跳转到：</span> 
+										<input type="text" class="datatable-paging-jump-input" id="jumpToInput"
+										th:value="${dataSourceSearch.currentPage}" /> 
+										<span class="datatable-paging-jump-go"
+										onclick="jumpToPage(document.dataSourceSearchname, document.getElementById('jumpToInput'));"></span>
+								</span></td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(dataSourcelist)}"
+								class="datatable-paging">
+								<td colspan="6" class="datatable-paging-info"><span>没有查询结果，请修改检索条件重新检索。</span>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="alertMessage"></div>
+</body>
+</html>
